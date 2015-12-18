@@ -170,7 +170,8 @@ ng2cli --html jade --style less
 I didn't wanted to create generator for full scafold app because i know that every devleoper like to use other tool like gulp, webpack, systemjs, etc..
 So now you can now integrate this tool to every project :)
 
-
+### Notes
+Add tests
 
 
 
