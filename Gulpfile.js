@@ -9,11 +9,14 @@ gulp.task('dev', function() {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('cpBlueprints', function() {
+gulp.task('copy', function() {
   gulp.src('./lib/blueprints/**/**', { base: "./lib" })
     .pipe(gulp.dest('./dist'));
+
+  gulp.src('./lib/config/config.json')
+    .pipe(gulp.dest('./dist/config'));
 });
 
-gulp.task('build', ['dev', 'cpBlueprints'], function() {
+gulp.task('build', ['dev', 'copy'], function() {
   console.log('done');
 });
