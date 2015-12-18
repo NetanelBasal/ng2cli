@@ -163,9 +163,9 @@ export class UnlessDirective {
 ### Change the default file types for html and style
 If you are using something else from the default html and scss you can set this one time like this:
 ```bash
-ng2cli --html jade --style less
+sudo ng2cli --html jade --style less
 ```
-
+We need sudo because write permissions to config file
 ### Notes
 I didn't wanted to create generator for full scafold app because i know that every devleoper like to use other tool like gulp, webpack, systemjs, etc..
 So now you can now integrate this tool to every project :)
