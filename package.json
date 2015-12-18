@@ -1,0 +1,23 @@
+{
+  "name": "ng2cli",
+  "version": "1.0.0",
+  "description": "Angular 2 cli generator",
+  "main": "lib/ng2cli.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "Netanel Basal <netanel7799@gmail.com>",
+  "license": "ISC",
+  "bin": {
+    "ng2cli": "./dist/ng2cli.js"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.3.17",
+    "babel-preset-es2015": "^6.3.13",
+    "command-line-args": "^2.1.3",
+    "fs-extra": "^0.26.2",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.1",
+    "lodash": "^3.10.1",
+    "swig": "^1.4.2"
+  }
+}

@@ -1,0 +1,12 @@
+import {Pipe} from 'angular2/core';
+// don't forget: pipes: [{{name | camelCase}}Pipe]
+
+@Pipe({name: '{{name | camelCase}}'})
+
+export class {{name | camelCase}}Pipe {
+
+  transform( value :number, args :string[] ) :any {
+    return value;
+  }
+
+}
