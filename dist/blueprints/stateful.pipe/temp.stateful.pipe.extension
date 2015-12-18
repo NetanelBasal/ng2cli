@@ -10,16 +10,16 @@ import {Pipe} from 'angular2/core';
 })
 
 export class {{name | camelCase}}Pipe {
-  private fetchedValue:any;
-  private fetchPromise:Promise<any>;
+  //private fetchedValue:any;
+  //private fetchPromise:Promise<any>;
 
   transform(value:string, args:string[]):any {
-    if (!this.fetchPromise) {
-      this.fetchPromise = window.fetch(value)
-        .then((result:any) => result.json())
-        .then((json:any)   => this.fetchedValue = json);
-    }
-    return this.fetchedValue;
+    //if (!this.fetchPromise) {
+      //this.fetchPromise = window.fetch(value)
+        //.then((result:any) => result.json())
+        //.then((json:any)   => this.fetchedValue = json);
+    //}
+    //return this.fetchedValue;
   }
 
 }
