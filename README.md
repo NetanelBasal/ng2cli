@@ -82,7 +82,7 @@ export class CamelCasePipe {
 
 Add a new stateful pipe with:
 ```bash
-ng2cli --sp uppercase
+ng2cli --sp stateful
 ```
 Will generate:
 ```ts
@@ -90,14 +90,14 @@ import {Pipe} from 'angular2/core';
 
 //Pipes are stateless by default. We must declare a pipe to be stateful by setting the pure property of the @Pipe decorator to false.
 //This setting tells Angular’s change detection system to check the output of this pipe each cycle, whether its input has changed or not.
-// don't forget: pipes: [uppercasePipe]
+// don't forget: pipes: [statefulPipe]
 
 @Pipe({
-  name: 'uppercase',
+  name: 'stateful',
   pure: false
 })
 
-export class UppercasePipe {
+export class StatefulPipe {
   private fetchedValue:any;
   private fetchPromise:Promise<any>;
 
