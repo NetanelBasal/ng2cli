@@ -20,9 +20,9 @@ Add a new component with:
 ng2cli footer
 ```
 Will generate folder named footer with three files:
-1. footer.tpl.html. ( or your default extension )
-2. footer.scss ( or your default extension )
-3. footer.component.ts
+- footer.tpl.html. ( or your default extension )
+- footer.scss ( or your default extension )
+- footer.component.ts
 ```ts
 import {Component} from 'angular2/core';
 
@@ -136,7 +136,7 @@ Add a new stractural directive with:
 ```bash
 ng2cli --sd my-directive
 ```
-Will generate ful example to manipulate:
+Will generate full example to manipulate:
 ```ts
 import {Directive, Input} from 'angular2/core';
 import {TemplateRef, ViewContainerRef} from 'angular2/core';
@@ -169,3 +169,10 @@ ng2cli --html jade --style less
 ### Notes
 I didn't wanted to create generator for full scafold app because i know that every devleoper like to use other tool like gulp, webpack, systemjs, etc..
 So now you can now integrate this tool to every project :)
+
+
+
+
+
+
+
