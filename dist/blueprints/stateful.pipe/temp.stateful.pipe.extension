@@ -5,7 +5,7 @@ import {Pipe} from 'angular2/core';
 // don't forget: pipes: [{{name | camelCase}}Pipe]
 
 @Pipe({
-  name: '{{name | camelCase}}',
+  name: '{{name | camelCaseOnly}}',
   pure: false
 })
 
