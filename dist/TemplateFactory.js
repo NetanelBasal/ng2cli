@@ -64,7 +64,7 @@ var TemplateFactory = (function () {
       /**
        * Generate Angular 2 stateful pipe
        */
-      if (cli.spipe) {
+      if (cli.sp) {
         return new _TemplateGenerator2.default(new _SpipeTpl2.default(cli.spipe));
       }
       /**
@@ -84,7 +84,7 @@ var TemplateFactory = (function () {
       /**
        * Generate Angular 2 structural directive
        */
-      if (cli.sdirective) {
+      if (cli.sd) {
         return new _TemplateGenerator2.default(new _SdirectiveTpl2.default(cli.sdirective));
       }
 

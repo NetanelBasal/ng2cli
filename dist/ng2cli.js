@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 'use strict';
 
 var _commandLineArgs = require('command-line-args');

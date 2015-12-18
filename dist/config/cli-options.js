@@ -13,7 +13,7 @@ exports.default = [{ name: 'help', type: Boolean, group: "options", description:
   type: String,
   group: "options",
   description: 'set the default style file'
-}, { name: 'pipe', alias: 'p', type: String, group: "options", description: 'generate Angular 2 pipe' }, { name: 'spipe', alias: 's', type: String, group: "options", description: 'generate Angular 2 stateful pipe' }, { name: 'sdirective', type: String, group: "options", description: 'generate Angular 2 stractural directive' }, { name: 'directive', alias: 'd', type: String, group: "options", description: 'generate Angular 2 directive' }, {
+}, { name: 'pipe', alias: 'p', type: String, group: "options", description: 'generate Angular 2 pipe' }, { name: 'sp', type: String, group: "options", description: 'generate Angular 2 stateful pipe' }, { name: 'sd', type: String, group: "options", description: 'generate Angular 2 stractural directive' }, { name: 'directive', alias: 'd', type: String, group: "options", description: 'generate Angular 2 directive' }, { name: 'service', alias: 's', type: String, group: "options", description: 'generate Angular 2 service' }, {
   name: 'component',
   alias: 'c',
   type: String,
