@@ -8,19 +8,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /**
  * SpipeTpl
- * structural pipe
  */
 
 var SpipeTpl =
 /**
- *
- * @param name - stateful pipe name
+ * @param name
  */
 function SpipeTpl(name) {
   _classCallCheck(this, SpipeTpl);
 
   this.type = 'stateful.pipe';
   this.name = name;
+  this.isDir = true;
 };
 
 exports.default = SpipeTpl;

@@ -12,14 +12,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var ServiceTpl =
 /**
- *
- * @param name - service name
+ * @param name
  */
 function ServiceTpl(name) {
   _classCallCheck(this, ServiceTpl);
 
   this.type = 'service';
   this.name = name;
+  this.isDir = true;
 };
 
 exports.default = ServiceTpl;

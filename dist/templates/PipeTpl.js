@@ -20,6 +20,7 @@ function PipeTpl(name) {
 
   this.type = 'pipe';
   this.name = name;
+  this.isDir = true;
 };
 
 exports.default = PipeTpl;

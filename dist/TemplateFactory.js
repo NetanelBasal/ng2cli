@@ -1,10 +1,10 @@
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _PipeTpl = require('./templates/PipeTpl');
 
@@ -30,6 +30,14 @@ var _SpipeTpl = require('./templates/SpipeTpl');
 
 var _SpipeTpl2 = _interopRequireDefault(_SpipeTpl);
 
+var _ActionsTpl = require('./templates/ActionsTpl');
+
+var _ActionsTpl2 = _interopRequireDefault(_ActionsTpl);
+
+var _ReducerTpl = require('./templates/ReducerTpl');
+
+var _ReducerTpl2 = _interopRequireDefault(_ReducerTpl);
+
 var _TemplateGenerator = require('./TemplateGenerator');
 
 var _TemplateGenerator2 = _interopRequireDefault(_TemplateGenerator);
@@ -42,7 +50,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * TemplateFactory
  */
 
-var TemplateFactory = (function () {
+var TemplateFactory = function () {
   function TemplateFactory() {
     _classCallCheck(this, TemplateFactory);
   }
@@ -50,9 +58,10 @@ var TemplateFactory = (function () {
   _createClass(TemplateFactory, null, [{
     key: 'createTemplateFor',
 
+
     /**
      * Factory to generate the templates
-     * @param cli
+     * @param cli options
      */
     value: function createTemplateFor(cli) {
       /**
@@ -94,10 +103,24 @@ var TemplateFactory = (function () {
       if (cli.service) {
         return new _TemplateGenerator2.default(new _ServiceTpl2.default(cli.service));
       }
+
+      /**
+       * Generate ngrx reducer + actions
+       */
+      if (cli.reducer) {
+        return new _TemplateGenerator2.default(new _ReducerTpl2.default(cli.reducer, cli.actions));
+      }
+
+      /**
+       * Generate ngrx actions
+       */
+      if (cli.actions) {
+        return new _TemplateGenerator2.default(new _ActionsTpl2.default(cli.name, cli.actions));
+      }
     }
   }]);
 
   return TemplateFactory;
-})();
+}();
 
 exports.default = TemplateFactory;

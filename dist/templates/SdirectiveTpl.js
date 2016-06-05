@@ -8,19 +8,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /**
  * SdirectiveTpl
- * structural directive
  */
 
 var SdirectiveTpl =
 /**
- *
- * @param name - structural directive name
+ * @param name
  */
 function SdirectiveTpl(name) {
   _classCallCheck(this, SdirectiveTpl);
 
   this.type = 'structural.directive';
   this.name = name;
+  this.isDir = true;
 };
 
 exports.default = SdirectiveTpl;

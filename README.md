@@ -1,9 +1,8 @@
-# Angular 2 templates generator
+# Angular 2/ngrx templates generator
 
-CLI util for easy generate Angular 2 files
+CLI util for easy generate Angular 2 and [ngrx](https://github.com/ngrx/store) files
 ## Installation
-
-```bash
+```js
 npm install -g ng2cli
 ```
 
@@ -13,151 +12,395 @@ npm install -g ng2cli
 ng2cli --help
 ```
 
-### Generating scaffolds
-
-Add a new component with:
+####**Create new component**####
 ```bash
 ng2cli footer
 ```
-Will generate folder named footer with three files:
-- footer.tpl.html. ( or your default extension )
-- footer.scss ( or your default extension )
-- footer.component.ts
-```ts
-import {Component} from 'angular2/core';
+Will generate four files:
+
+**footer.component.ts**
+```javascript
+import { Component, EventEmitter, Input, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'footer',
-  template: '<h1>footer</h1>',
+  template: require('./footer.component.html'),
+  style: require('./footer.component.scss'),
   providers: [],
   directives: [],
-  pipes: []
+  pipes: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class Footer {
-  //@Input() myProperty;
-  //@Output() myEvent = new EventEmitter();
+
+export class FooterComponent implements OnInit {
+  @Input() myProperty;
+  @Output() myEvent = new EventEmitter<string>();
 
   constructor() {
+
   }
-  //ngOnInit() { ... }
+
+  ngOnInit() {
+
+  }
+}
+
+```
+
+**footer.component.spec.ts**
+```javascript
+import {
+  beforeEach,
+  beforeEachProviders,
+  describe,
+  expect,
+  it,
+  inject
+} from '@angular/core/testing';
+import { ComponentFixture, TestComponentBuilder } from '@angular/compiler/testing';
+import { Component } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { FooterComponent } from './footer.component';
+
+describe('Component: Footer', () => {
+  let builder: TestComponentBuilder;
+
+  beforeEachProviders(() => [FooterComponent]);
+  beforeEach(inject([TestComponentBuilder], function (tcb: TestComponentBuilder) {
+    builder = tcb;
+  }));
+
+  it('should inject the component', inject([FooterComponent],
+      (component: FooterComponent) => {
+    expect(component).toBeTruthy();
+  }));
+
+  it('should create the component', inject([], () => {
+    return builder.createAsync(FooterComponentTestController)
+      .then((fixture: ComponentFixture<any>) => {
+        let query = fixture.debugElement.query(By.directive(FooterComponent));
+        expect(query).toBeTruthy();
+        expect(query.componentInstance).toBeTruthy();
+      });
+  }));
+});
+
+@Component({
+  selector: 'test',
+  template: `
+    <footer></footer>
+  `,
+  directives: [FooterComponent]
+})
+class FooterComponentTestController {
+}
+
+```
+
+**footer.component.html**
+```html
+<section class="footer">
+  <h1>footer Component</h1>
+  <input type="text" #input />
+  <button (click)="myEvent.next(input.value)">Click me</button>
+</section>
+
+```
+
+**footer.component.scss**
+```css
+.footer {
+
 }
 ```
 
-Add a new service with:
+####**Create new service**####
 ```bash
-ng2cli -s log
+ng2cli -s todos
 ```
-Will generate:
-```ts
-import { Injectable } from 'angular2/angular2';
-import { Http } from 'angular2/http';
+Will generate two files:
+
+**todos.service.ts**
+```javascript
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 
 @Injectable()
-class LogService {
+class TodosService {
+
   constructor(private http: Http) {
   }
-}
-//don't forget: bootstrap(AppComponent, [LogService]);
-```
 
-Add a new pipe with:
+}
+
+```
+**todos.service.spec.ts**
+```javascript
+import { Component } from '@angular/core';
+import {
+    beforeEachProviders,
+    describe,
+    expect,
+    inject,
+    it
+} from '@angular/core/testing';
+import { BaseRequestOptions, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { TodosService } from './todos.service';
+
+describe('Todos Service', () => {
+    beforeEachProviders(() => [
+        BaseRequestOptions,
+        MockBackend,
+        {
+            provide: Http,
+            useFactory: function(backend, defaultOptions) {
+                return new Http(backend, defaultOptions);
+            },
+            deps: [MockBackend, BaseRequestOptions]
+        },
+        TodosService
+    ]);
+
+it('should ...',
+    inject([TodosService], (service: TodosService) => {
+        expect(service).toBeTruthy();
+    }));
+ });
+
+```
+####**Create new pipe**####
 ```bash
 ng2cli -p camel-case
 ```
-Will generate:
+Will generate two files:
+
+**camel-case.pipe.ts**
 ```ts
-import {Pipe} from 'angular2/core';
-// don't forget: pipes: [CamelCasePipe]
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({name: 'camelCase'})
 
-export class CamelCasePipe {
-  transform( value :number, args :string[] ) :any {
-    return value;
+export class CamelCasePipe implements PipeTransform {
+
+  transform( value: any, args?: any): any {
+    return null;
   }
+
 }
 
 ```
 
-Add a new stateful pipe with:
+
+**camel-case.pipe.spec.ts**
+```ts
+import {
+  beforeEachProviders,
+  describe,
+  expect,
+  inject,
+  it
+} from '@angular/core/testing';
+import { CamelCasePipe } from './camel-case.pipe';
+
+describe('Pipe: CamelCase', () => {
+  beforeEachProviders(() => [CamelCasePipe]);
+
+  it('should transform the input', inject([CamelCasePipe], (pipe: CamelCasePipe) => {
+      expect(pipe.transform(true)).toBe(null);
+  }));
+});
+
+```
+
+####**Create new stateful pipe**####
 ```bash
 ng2cli --sp stateful
 ```
-Will generate:
+Will generate: ( with test file )
 ```ts
-import {Pipe} from 'angular2/core';
-
-//Pipes are stateless by default. We must declare a pipe to be stateful by setting the pure property of the @Pipe decorator to false.
-//This setting tells Angular’s change detection system to check the output of this pipe each cycle, whether its input has changed or not.
-// don't forget: pipes: [statefulPipe]
+import { Pipe, PipeTransform } from '@angular/core';
+import { Http }                from '@angular/http';
+import 'rxjs/operators/map';
 
 @Pipe({
-  name: 'stateful',
-  pure: false
+    name: 'stateful',
+    pure: false
 })
 
 export class StatefulPipe {
-  private fetchedValue:any;
-  private fetchPromise:Promise<any>;
+    private fetchedJson: any = null;
+    private prevUrl = '';
+    constructor(private _http: Http) { }
 
-  transform(value:string, args:string[]):any {
-    if (!this.fetchPromise) {
-      this.fetchPromise = window.fetch(value)
-        .then((result:any) => result.json())
-        .then((json:any)   => this.fetchedValue = json);
+    transform(url: string): any {
+        if (url !== this.prevUrl) {
+            this.prevUrl = url;
+            this.fetchedJson = null;
+            this._http.get(url)
+                .map(result => result.json())
+                .subscribe(result => this.fetchedJson = result);
+        }
+        return this.fetchedJson;
     }
-    return this.fetchedValue;
-  }
 
 }
-```
 
-Add a new directive with:
+```
+####**Create new directive**####
 ```bash
 ng2cli -d my-directive
 ```
-Will generate:
+will generate two files:
+
+**my-directive.directive.ts**
 ```ts
-import {Directive, ElementRef, Renderer, Input} from 'angular2/core';
+import { Directive, ElementRef, Input, HostListener, HostBinding, Renderer } from '@angular/core';
 
 @Directive({
-  selector: '[my-directive]',
-  host: {
-    //'(mouseenter)': 'onMouseEnter()'
-  }
+  selector: '[myDirective]'
 })
 
-export class MyDirective {
+export class MyDirectiveDirective {
+
+  constructor(el: ElementRef, renderer: Renderer) {
+     //el.nativeElement.style.backgroundColor = 'yellow';
+    // renderer.setElementStyle(element.nativeElement, 'fontSize', 'x-large');
+  }
+
+  @HostBinding('attr.role') role = 'button';
+
+  @HostListener('mouseenter')
+  onMouseEnter() {
+
+  }
 
 }
+
 ```
-Add a new stractural directive with:
+
+**my-directive.directive.spec.ts**
+```ts
+import {
+  async,
+  beforeEachProviders,
+  describe,
+  ddescribe,
+  expect,
+  iit,
+  it,
+  inject
+} from '@angular/core/testing';
+import { ComponentFixture, TestComponentBuilder } from '@angular/compiler/testing';
+import { provide, Component } from '@angular/core';
+import { MyDirectiveDirective } from './my-directive.directive';
+
+describe('MyDirective Directive', () => {
+  // Create a test component to test directives
+  @Component({
+    template: '',
+    directives: [ MyDirectiveDirective ]
+  })
+  class TestComponent {}
+
+  it('should ...', async(inject([TestComponentBuilder], (tcb) => {
+    return tcb.overrideTemplate(TestComponent, '<div myDirective>Content</div>')
+      .createAsync(TestComponent).then((fixture: any) => {
+        fixture.detectChanges();
+        let compiled = fixture.debugElement.nativeElement.children[0];
+        // expect(compiled.style.fontSize).toBe('x-large');
+      });
+  })));
+
+});
+
+```
+####**Create new stractural directive**####
 ```bash
 ng2cli --sd my-directive
 ```
-Will generate full example to manipulate:
+Will generate: ( with test file )
 ```ts
-import {Directive, Input} from 'angular2/core';
-import {TemplateRef, ViewContainerRef} from 'angular2/core';
+import {Directive, Input, TemplateRef, ViewContainerRef} from '@angular2/core';
 
-@Directive({ selector: '[myUnless]' })
+@Directive({ selector: '[myDirective]' })
 
-export class UnlessDirective {
+export class MyDirectiveDirective {
   constructor(
-    private _templateRef: TemplateRef,
-    private _viewContainer: ViewContainerRef
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef
     ) { }
 
-  @Input() set myUnless(condition: boolean) {
+  @Input() set myDirective(condition: boolean) {
     if (!condition) {
-      this._viewContainer.createEmbeddedView(this._templateRef);
+      this.viewContainer.createEmbeddedView(this.templateRef);
     } else {
-      this._viewContainer.clear();
+      this.viewContainer.clear();
     }
   }
 
 }
+```
+
+##ngrx/store
+####**Create new ngrx reducer with actions**####
+```bash
+ng2cli -r todos -a add_todo remove_todo
+```
+Will generate three files:
+
+***todos.actions.ts***
+```javascript
+export const ADD_TODO = 'ADD_TODO';
+export const REMOVE_TODO = 'REMOVE_TODO';
+```
+***todos.reducer.ts***
+```javascript
+import { ActionReducer, Action } from '@ngrx/store';
+import * as todosActions from './todos.actions';
+
+export const todosReducer: ActionReducer<type> = (state: type = [], action: Action) => {
+    switch (action.type) {
+      case todosActions.ADD_TODO
+        return [...state, action.payload];
+      case todosActions.REMOVE_TODO
+        return [...state, action.payload];
+      default:
+        return state;
+    }
+}
+
+```
+
+***todos.reducer.spec.ts***
+```javascript
+import {
+  it,
+  describe,
+  expect
+} from 'angular2/testing';
+import * as todosActions from './todos.actions';
+import { todos } from "./todos";
+
+describe('The todos reducer', () => {
+    it('should return current state when x action is dispatched', () => {
+        const actual = todos(0, {type: todosActions.x});
+        const expected = 0;
+        expect(actual).toBe(expected);
+    });
+});
+
+```
+
+####**Create new actions**####
+```bash
+ng2cli -n todos -a add_todo remove_todo
+```
+***todos.actions.ts***
+```javascript
+export const ADD_TODO = 'ADD_TODO';
+export const REMOVE_TODO = 'REMOVE_TODO';
 ```
 
 ### Change the default file types for html and style
@@ -165,15 +408,5 @@ If you are using something else from the default html and scss you can set this 
 ```bash
 sudo ng2cli --html jade --style less
 ```
-We need sudo because write permissions to config file
-### Notes
-I didn't wanted to create generator for full scafold app because i know that every devleoper like to use other tool like gulp, webpack, systemjs, etc..
-So now you can now integrate this tool to every project :)
-
-### Todo
-Add tests
-
-
-
-
-
+### PR ME!!!
+If you want to fix/improve the templates please PR ME.

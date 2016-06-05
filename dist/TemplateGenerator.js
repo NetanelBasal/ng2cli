@@ -1,10 +1,10 @@
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _path = require('path');
 
@@ -30,7 +30,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * TemplateGenerator
  */
 
-var TemplateGenerator = (function () {
+var TemplateGenerator = function () {
 
   /**
    * Todo: Inject swig, fs and config to mock them in the future tests
@@ -50,18 +50,20 @@ var TemplateGenerator = (function () {
    * @private
    */
 
+
   _createClass(TemplateGenerator, [{
     key: '_create',
     value: function _create() {
       var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
       var name = options.name;
       var type = options.type;
+      var actions = options.actions;
 
       var filesType = _config2.default.getConfigFile().filesType;
       if (options.isDir) {
-        this._createDirectory(this._getDirPath(type), { name: name }, filesType);
+        this._createDirectory(this._getDirPath(type), { name: name, actions: actions }, filesType);
       } else {
-        var tpl = this._compileTpl(this._getSingleTpl(type), { name: name });
+        var tpl = this._compileTpl(this._getSingleTpl(type), { name: name, actions: actions });
         this._createFile(name, type, filesType.js, tpl);
       }
     }
@@ -76,14 +78,18 @@ var TemplateGenerator = (function () {
 
   }, {
     key: '_compileTpl',
-    value: function _compileTpl(file, data) {
+    value: function _compileTpl(file, _ref) {
+      var name = _ref.name;
+      var actions = _ref.actions;
+
       var compiled = _swig2.default.compileFile(file);
-      return compiled({ name: data.name });
+      return compiled({ name: name, actions: actions });
     }
 
     /**
      *
      * @param name
+     * @param fileType
      * @param type
      * @param tpl
      * @private
@@ -113,7 +119,7 @@ var TemplateGenerator = (function () {
       _fsExtra2.default.readdir(dirPath, function (err, dir) {
         var name = data.name;
         var folder = _path2.default.join(process.cwd(), name);
-        var filePath = undefined;
+        var filePath = void 0;
 
         dir.forEach(function (tempFile) {
           var compiled = _this._compileTpl(dirPath + '/' + tempFile, data);
@@ -130,8 +136,9 @@ var TemplateGenerator = (function () {
 
     /**
      *
-     * @param fileName
-     * @param fileType
+     * @param tempFile
+     * @param name
+     * @param fileTypes
      * @returns {*}
      * @private
      */
@@ -141,16 +148,12 @@ var TemplateGenerator = (function () {
     value: function _createFileName(tempFile, name, fileTypes) {
       var newName = tempFile.replace(/temp/, name);
 
-      if (newName.indexOf('component') > -1) {
-        newName = newName.replace(/extension/, fileTypes.js);
-      }
-
       if (newName.indexOf('tpl') > -1) {
-        newName = newName.replace(/extension/, fileTypes.html);
+        newName = newName.replace(/tpl/, 'component').replace(/extension/, fileTypes.html);
       }
 
       if (newName.indexOf('sty') > -1) {
-        newName = newName.replace(/extension/, fileTypes.style).replace(/\.sty/, '');
+        newName = newName.replace(/sty/, 'component').replace(/extension/, fileTypes.style);
       }
 
       return newName;
@@ -159,6 +162,7 @@ var TemplateGenerator = (function () {
     /**
      *
      * @param type
+     * @param extension
      * @returns {*}
      * @private
      */
@@ -166,7 +170,9 @@ var TemplateGenerator = (function () {
   }, {
     key: '_getSingleTpl',
     value: function _getSingleTpl(type) {
-      return this.TEMPLATES_DIR + '/' + type + '/temp.' + type + '.extension';
+      var extension = arguments.length <= 1 || arguments[1] === undefined ? 'ts' : arguments[1];
+
+      return this.TEMPLATES_DIR + '/' + type + '/temp.' + type + '.' + extension;
     }
 
     /**
@@ -199,6 +205,6 @@ var TemplateGenerator = (function () {
   }]);
 
   return TemplateGenerator;
-})();
+}();
 
 exports.default = TemplateGenerator;

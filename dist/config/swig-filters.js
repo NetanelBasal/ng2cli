@@ -25,4 +25,8 @@ exports.default = function (swig) {
   swig.setFilter('camelCaseOnly', function (input) {
     return _lodash2.default.camelCase(input);
   });
+
+  swig.setFilter('upperCase', function (input) {
+    return input.toUpperCase();
+  });
 };

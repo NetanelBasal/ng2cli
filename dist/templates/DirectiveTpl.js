@@ -20,6 +20,7 @@ function DirectiveTpl(name) {
 
   this.type = 'directive';
   this.name = name;
+  this.isDir = true;
 };
 
 exports.default = DirectiveTpl;

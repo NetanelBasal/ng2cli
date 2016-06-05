@@ -39,15 +39,16 @@ var cli = (0, _commandLineArgs2.default)(_cliOptions2.default);
 
 (0, _swigFilters2.default)(_swig2.default);
 var options = cli.parse().options;
+
 /* ===============
- Ask for help 
+ Ask for help
  =============== */
 if (options.help) {
   console.log(cli.getUsage(cli));
 }
 
 /* ===============
- Set the file extensions 
+ Set the file extensions
  =============== */
 if (options.html || options.style) {
   var configData = _config2.default.getConfigFile();
