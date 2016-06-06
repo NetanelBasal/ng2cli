@@ -1,5 +1,5 @@
 <section class="{{name | kebabCase}}">
   <h1>{{name | kebabCase}} Component</h1>
   <input type="text" #input />
-  <button (click)="myEvent.next(input.value)">Click me</button>
+  <button (click)="myEvent.emit(input.value)">Click me</button>
 </section>

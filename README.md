@@ -103,7 +103,7 @@ class FooterComponentTestController {
 <section class="footer">
   <h1>footer Component</h1>
   <input type="text" #input />
-  <button (click)="myEvent.next(input.value)">Click me</button>
+  <button (click)="myEvent.emit(input.value)">Click me</button>
 </section>
 
 ```
