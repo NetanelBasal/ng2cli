@@ -149,9 +149,9 @@ import {
 } from '@angular/core/testing';
 import { BaseRequestOptions, Http } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { {{name | camelCase }}Service } from './{{name | kebabCase}}.service';
+import { TodosService } from './todos.service';
 
-describe('{{name | camelCase}} Service', () => {
+describe('Todos Service', () => {
     beforeEachProviders(() => [
         BaseRequestOptions,
         MockBackend,
@@ -162,11 +162,11 @@ describe('{{name | camelCase}} Service', () => {
             },
             deps: [MockBackend, BaseRequestOptions]
         },
-        {{name | camelCase }}Service
+        TodosService
     ]);
 
 it('should ...',
-    inject([{{name | camelCase }}Service], (service: {{name | camelCase}}Service) => {
+    inject([TodosService], (service: TodosService) => {
         expect(service).toBeTruthy();
     }));
     /**
@@ -175,14 +175,14 @@ it('should ...',
       Promises are be fulfilled and Observables are notified immediately after you call tick()
     **/
     it('should make HTTP request',
-      inject([{{name | camelCase }}Service, MockBackend], fakeAsync(({{name | camelCaseOnly }}Service:{{name | camelCase }}Service, mockBackend:MockBackend) => {
+      inject([TodosService, MockBackend], fakeAsync((todosService:TodosService, mockBackend:MockBackend) => {
         var res:Response;
         mockBackend.connections.subscribe(c => {
           expect(c.request.url).toBe('some.api.call');
           let response = new ResponseOptions({body: '[{}, {}]'});
           c.mockRespond(new Response(response));
         });
-        {{name | camelCaseOnly }}Service.get().subscribe(response => {
+        todosService.get().subscribe(response => {
           res = response;
         });
         tick();
