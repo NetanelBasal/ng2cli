@@ -143,13 +143,15 @@ import {
     describe,
     expect,
     inject,
+    fakeAsync,
+    tick,
     it
 } from '@angular/core/testing';
 import { BaseRequestOptions, Http } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { TodosService } from './todos.service';
+import { {{name | camelCase }}Service } from './{{name | kebabCase}}.service';
 
-describe('Todos Service', () => {
+describe('{{name | camelCase}} Service', () => {
     beforeEachProviders(() => [
         BaseRequestOptions,
         MockBackend,
@@ -160,13 +162,33 @@ describe('Todos Service', () => {
             },
             deps: [MockBackend, BaseRequestOptions]
         },
-        TodosService
+        {{name | camelCase }}Service
     ]);
 
 it('should ...',
-    inject([TodosService], (service: TodosService) => {
+    inject([{{name | camelCase }}Service], (service: {{name | camelCase}}Service) => {
         expect(service).toBeTruthy();
     }));
+    /**
+      When you are testing code that returns either a Promise or an RxJS Observable,
+      you can use the fakeAsync helper to test that code as if it were synchronous.
+      Promises are be fulfilled and Observables are notified immediately after you call tick()
+    **/
+    it('should make HTTP request',
+      inject([{{name | camelCase }}Service, MockBackend], fakeAsync(({{name | camelCaseOnly }}Service:{{name | camelCase }}Service, mockBackend:MockBackend) => {
+        var res:Response;
+        mockBackend.connections.subscribe(c => {
+          expect(c.request.url).toBe('some.api.call');
+          let response = new ResponseOptions({body: '[{}, {}]'});
+          c.mockRespond(new Response(response));
+        });
+        {{name | camelCaseOnly }}Service.get().subscribe(response => {
+          res = response;
+        });
+        tick();
+        expect(res.length).toBe(2);
+      }))
+    );
  });
 
 ```
