@@ -166,8 +166,8 @@ describe('Todos Service', () => {
     ]);
 
 it('should ...',
-    inject([TodosService], (service: TodosService) => {
-        expect(service).toBeTruthy();
+    inject([TodosService], (todosService: TodosService) => {
+        expect(todosService).toBeTruthy();
     }));
     /**
       When you are testing code that returns either a Promise or an RxJS Observable,

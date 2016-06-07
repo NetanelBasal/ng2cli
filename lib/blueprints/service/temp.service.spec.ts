@@ -27,8 +27,8 @@ describe('{{name | camelCase}} Service', () => {
     ]);
 
 it('should ...',
-    inject([{{name | camelCase }}Service], (service: {{name | camelCase}}Service) => {
-        expect(service).toBeTruthy();
+    inject([{{name | camelCase }}Service], ({{name | camelCaseOnly }}Service: {{name | camelCase}}Service) => {
+        expect({{name | camelCaseOnly }}Service).toBeTruthy();
     }));
     /**
       When you are testing code that returns either a Promise or an RxJS Observable,
