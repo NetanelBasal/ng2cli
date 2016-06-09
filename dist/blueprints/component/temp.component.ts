@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output, OnInit, ChangeDetectionStrategy
 @Component({
   selector: '{{name | kebabCase}}',
   template: require('./{{name}}.component.html'),
-  style: require('./{{name}}.component.scss'),
+  style: [require('./{{name}}.component.scss')],
   providers: [],
   directives: [],
   pipes: [],

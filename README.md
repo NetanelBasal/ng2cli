@@ -25,7 +25,7 @@ import { Component, EventEmitter, Input, Output, OnInit, ChangeDetectionStrategy
 @Component({
   selector: 'footer',
   template: require('./footer.component.html'),
-  style: require('./footer.component.scss'),
+  style: [require('./footer.component.scss')],
   providers: [],
   directives: [],
   pipes: [],
