@@ -1,12 +1,12 @@
 import {
   beforeEach,
-  beforeEachProviders,
+  addProviders,
   describe,
   expect,
   it,
   inject
-} from '@angular/core/testing';
-import { ComponentFixture, TestComponentBuilder } from '@angular/compiler/testing';
+} from '@angular/testing/core';
+import { ComponentFixture, TestComponentBuilder } from '@angular/testing/core';
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { {{name | camelCase}}Component } from './{{name | kebabCase}}.component';
@@ -14,7 +14,10 @@ import { {{name | camelCase}}Component } from './{{name | kebabCase}}.component'
 describe('Component: {{name | camelCase}}', () => {
   let builder: TestComponentBuilder;
 
-  beforeEachProviders(() => [{{name | camelCase}}Component]);
+  beforeEach(() => {
+    addProviders([{{name | camelCase}}Component]);
+  });
+
   beforeEach(inject([TestComponentBuilder], function (tcb: TestComponentBuilder) {
     builder = tcb;
   }));

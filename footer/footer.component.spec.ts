@@ -9,28 +9,28 @@ import {
 import { ComponentFixture, TestComponentBuilder } from '@angular/testing/core';
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { {{name | camelCase}}Component } from './{{name | kebabCase}}.component';
+import { FooterComponent } from './footer.component';
 
-describe('Component: {{name | camelCase}}', () => {
+describe('Component: Footer', () => {
   let builder: TestComponentBuilder;
 
   beforeEach(() => {
-    addProviders([{{name | camelCase}}Component]);
+    addProviders([FooterComponent]);
   });
 
   beforeEach(inject([TestComponentBuilder], function (tcb: TestComponentBuilder) {
     builder = tcb;
   }));
 
-  it('should inject the component', inject([{{name | camelCase}}Component],
-      (component: {{name | camelCase}}Component) => {
+  it('should inject the component', inject([FooterComponent],
+      (component: FooterComponent) => {
     expect(component).toBeTruthy();
   }));
 
   it('should create the component', inject([], () => {
-    return builder.createAsync({{name | camelCase}}ComponentTestController)
+    return builder.createAsync(FooterComponentTestController)
       .then((fixture: ComponentFixture<any>) => {
-        let query = fixture.debugElement.query(By.directive({{name | camelCase}}Component));
+        let query = fixture.debugElement.query(By.directive(FooterComponent));
         expect(query).toBeTruthy();
         expect(query.componentInstance).toBeTruthy();
       });
@@ -40,9 +40,9 @@ describe('Component: {{name | camelCase}}', () => {
 @Component({
   selector: 'test',
   template: `
-    <{{name | kebabCase}}></{{name | kebabCase}}>
+    <footer></footer>
   `,
-  directives: [{{name | camelCase}}Component]
+  directives: [FooterComponent]
 })
-class {{name | camelCase}}ComponentTestController {
+class FooterComponentTestController {
 }
