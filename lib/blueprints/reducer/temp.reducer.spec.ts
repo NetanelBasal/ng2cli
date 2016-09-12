@@ -1,8 +1,3 @@
-import {
-  it,
-  describe,
-  expect
-} from 'angular2/testing';
 import * as {{name | camelCaseOnly}}Actions from './{{name | kebabCase}}.actions';
 import { {{name | camelCaseOnly}} } from "./{{name | kebabCase}}";
 

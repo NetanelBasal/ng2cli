@@ -38,6 +38,10 @@ var _ReducerTpl = require('./templates/ReducerTpl');
 
 var _ReducerTpl2 = _interopRequireDefault(_ReducerTpl);
 
+var _ModuleTpl = require('./templates/ModuleTpl');
+
+var _ModuleTpl2 = _interopRequireDefault(_ModuleTpl);
+
 var _TemplateGenerator = require('./TemplateGenerator');
 
 var _TemplateGenerator2 = _interopRequireDefault(_TemplateGenerator);
@@ -64,6 +68,12 @@ var TemplateFactory = function () {
      * @param cli options
      */
     value: function createTemplateFor(cli) {
+      /**
+       * Generate Angular 2 module
+       */
+      if (cli.module) {
+        return new _TemplateGenerator2.default(new _ModuleTpl2.default(cli.module));
+      }
       /**
        * Generate Angular 2 pipe
        */

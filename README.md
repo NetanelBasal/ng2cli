@@ -26,9 +26,6 @@ import { Component, EventEmitter, Input, Output, OnInit, ChangeDetectionStrategy
   selector: 'footer',
   template: require('./footer.component.html'),
   style: [require('./footer.component.scss')],
-  providers: [],
-  directives: [],
-  pipes: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -46,55 +43,35 @@ export class FooterComponent implements OnInit {
   }
 }
 
+
 ```
 
 **footer.component.spec.ts**
 ```javascript
 import {
-  beforeEach,
-  beforeEachProviders,
-  describe,
-  expect,
-  it,
-  inject
-} from '@angular/core/testing';
-import { ComponentFixture, TestComponentBuilder } from '@angular/compiler/testing';
-import { Component } from '@angular/core';
-import { By } from '@angular/platform-browser';
+  TestBed
+} from '@angular/testing/core';
 import { FooterComponent } from './footer.component';
 
 describe('Component: Footer', () => {
-  let builder: TestComponentBuilder;
 
-  beforeEachProviders(() => [FooterComponent]);
-  beforeEach(inject([TestComponentBuilder], function (tcb: TestComponentBuilder) {
-    builder = tcb;
-  }));
+  let fixture: ComponentFixture<FooterComponent>;
 
-  it('should inject the component', inject([FooterComponent],
-      (component: FooterComponent) => {
-    expect(component).toBeTruthy();
-  }));
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [FooterComponent]
+    });
+    fixture = TestBed.createComponent(FooterComponent);
+  });
 
-  it('should create the component', inject([], () => {
-    return builder.createAsync(FooterComponentTestController)
-      .then((fixture: ComponentFixture<any>) => {
-        let query = fixture.debugElement.query(By.directive(FooterComponent));
-        expect(query).toBeTruthy();
-        expect(query.componentInstance).toBeTruthy();
-      });
-  }));
+  it('should have some h1', () => {
+    const component = fixture.componentInstance;
+    fixture.detectChanges();
+    const element = fixture.nativeElement;
+    expect(element.querySelector('h1').textContent).toBe('Something');
+  });
+
 });
-
-@Component({
-  selector: 'test',
-  template: `
-    <footer></footer>
-  `,
-  directives: [FooterComponent]
-})
-class FooterComponentTestController {
-}
 
 ```
 
@@ -137,22 +114,19 @@ class TodosService {
 ```
 **todos.service.spec.ts**
 ```javascript
-import { Component } from '@angular/core';
 import {
     beforeEachProviders,
-    describe,
-    expect,
     inject,
     fakeAsync,
-    tick,
-    it
-} from '@angular/core/testing';
+    tick
+} from '@angular/testing/core';
 import { BaseRequestOptions, Http } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { TodosService } from './todos.service';
 
 describe('Todos Service', () => {
-    beforeEachProviders(() => [
+  beforeEachProviders(() =>
+    [
         BaseRequestOptions,
         MockBackend,
         {
@@ -163,7 +137,9 @@ describe('Todos Service', () => {
             deps: [MockBackend, BaseRequestOptions]
         },
         TodosService
-    ]);
+    ];
+  );
+
 
 it('should ...',
     inject([TodosService], (todosService: TodosService) => {
@@ -217,21 +193,19 @@ export class CamelCasePipe implements PipeTransform {
 
 **camel-case.pipe.spec.ts**
 ```ts
-import {
-  beforeEachProviders,
-  describe,
-  expect,
-  inject,
-  it
-} from '@angular/core/testing';
 import { CamelCasePipe } from './camel-case.pipe';
 
 describe('Pipe: CamelCase', () => {
-  beforeEachProviders(() => [CamelCasePipe]);
+  let pipe: CamelCasePipe;
 
-  it('should transform the input', inject([CamelCasePipe], (pipe: CamelCasePipe) => {
-      expect(pipe.transform(true)).toBe(null);
-  }));
+  beforeEach(() => {
+    pipe = new CamelCasePipe();
+  });
+
+  it('transforms "abc" to "ABC"', () => {
+    expect(pipe.transform('abc')).toEqual('ABC');
+  });
+
 });
 
 ```
@@ -304,38 +278,47 @@ export class MyDirectiveDirective {
 
 **my-directive.directive.spec.ts**
 ```ts
-import {
-  async,
-  beforeEachProviders,
-  describe,
-  ddescribe,
-  expect,
-  iit,
-  it,
-  inject
-} from '@angular/core/testing';
-import { ComponentFixture, TestComponentBuilder } from '@angular/compiler/testing';
-import { provide, Component } from '@angular/core';
-import { MyDirectiveDirective } from './my-directive.directive';
+import {CommonModule} from '@angular/common';
+import {Component} from '@angular/core';
+import {ComponentFixture, TestBed, async} from '@angular/core/testing';
+import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
+import {expect} from '@angular/platform-browser/testing/matchers';
 
 describe('MyDirective Directive', () => {
-  // Create a test component to test directives
-  @Component({
-    template: '',
-    directives: [ MyDirectiveDirective ]
-  })
-  class TestComponent {}
+  let fixture: ComponentFixture<any>;
 
-  it('should ...', async(inject([TestComponentBuilder], (tcb) => {
-    return tcb.overrideTemplate(TestComponent, '<div myDirective>Content</div>')
-      .createAsync(TestComponent).then((fixture: any) => {
-        fixture.detectChanges();
-        let compiled = fixture.debugElement.nativeElement.children[0];
-        // expect(compiled.style.fontSize).toBe('x-large');
-      });
-  })));
+  function getComponent(): TestComponent {
+    return fixture.componentInstance;
+  }
 
-});
+  afterEach(() => { fixture = null; });
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [TestComponent],
+      imports: [CommonModule]
+    });
+  });
+
+  it('should do some dom manipulation', async(() => {
+       const template = '<div myDirective>hello</div>';
+       fixture = createTestComponent(template);
+
+       fixture.detectChanges();
+       expect(getDOM().querySelectorAll(fixture.nativeElement, 'span').length).toEqual(1);
+       expect(fixture.nativeElement).toHaveText('hello');
+     }));
+
+  });
+
+// Create a test component to test directives
+@Component({selector: 'test-cmp', template: ''})
+class TestComponent {}
+
+function createTestComponent(template: string): ComponentFixture<TestComponent> {
+  return TestBed.overrideComponent(TestComponent, {set: {template: template}})
+      .createComponent(TestComponent);
+}
 
 ```
 ####**Create new stractural directive**####
@@ -397,11 +380,6 @@ export const todosReducer: ActionReducer<type> = (state: type = [], action: Acti
 
 ***todos.reducer.spec.ts***
 ```javascript
-import {
-  it,
-  describe,
-  expect
-} from 'angular2/testing';
 import * as todosActions from './todos.actions';
 import { todos } from "./todos";
 

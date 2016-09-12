@@ -1,20 +1,16 @@
-import { Component } from '@angular/core';
 import {
-    addProviders,
-    describe,
-    expect,
+    beforeEachProviders,
     inject,
     fakeAsync,
-    tick,
-    it
+    tick
 } from '@angular/testing/core';
 import { BaseRequestOptions, Http } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { {{name | camelCase }}Service } from './{{name | kebabCase}}.service';
 
 describe('{{name | camelCase}} Service', () => {
-  beforeEach(() => {
-    addProviders([
+  beforeEachProviders(() =>
+    [
         BaseRequestOptions,
         MockBackend,
         {
@@ -25,8 +21,8 @@ describe('{{name | camelCase}} Service', () => {
             deps: [MockBackend, BaseRequestOptions]
         },
         {{name | camelCase }}Service
-    ]);
-  });
+    ];
+  );
 
 
 it('should ...',

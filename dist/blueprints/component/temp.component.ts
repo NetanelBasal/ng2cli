@@ -4,9 +4,6 @@ import { Component, EventEmitter, Input, Output, OnInit, ChangeDetectionStrategy
   selector: '{{name | kebabCase}}',
   template: require('./{{name}}.component.html'),
   style: [require('./{{name}}.component.scss')],
-  providers: [],
-  directives: [],
-  pipes: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
