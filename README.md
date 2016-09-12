@@ -12,6 +12,28 @@ npm install -g ng2cli
 ng2cli --help
 ```
 
+####**Create new module**####
+```bash
+ng2cli -m contact
+```
+***contact.module.ts***
+```javascript
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+@NgModule({
+  declarations: [],
+  exports: [],
+  imports: [BrowserModule],
+  providers: []
+})
+export class ContactModule {
+
+}
+
+```
+
+
 ####**Create new component**####
 ```bash
 ng2cli footer
